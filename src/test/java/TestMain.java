@@ -1,5 +1,8 @@
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -91,6 +94,15 @@ public class TestMain {
         int num2=6;
         int yuefen = Main.yuefen(num1, num2);
         System.out.println(yuefen);
+    }
+
+    @Test
+    public void testifRepeat(){
+        String expression="3+2+1";
+        List<String> result=new ArrayList<>();
+        result.add("3+2+1");
+        boolean b = Main.ifRepeat(expression, result);
+        System.out.println(b);
     }
 
 }

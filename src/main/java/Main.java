@@ -179,7 +179,7 @@ public class Main {
     }
 
 
-    private static boolean ifRepeat(String expression,List<String> result){
+    public static boolean ifRepeat(String expression,List<String> result){
         if(result.size()==0){
             return false;
         }else{
