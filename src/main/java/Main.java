@@ -60,7 +60,7 @@ public class Main {
         }
         if(exerciseFile!=null&&answerFile!=null&&exerciseFile.length()>0&&answerFile.length()>0){
             //进行对比,然后输出到文件中
-
+            creatGraFile(exerciseFile,answerFile);
         }else if(exerciseFile==null&&answerFile==null){
             //进行表达式的生成，并且存储在文件中
             createProblem(n,r);
@@ -70,6 +70,93 @@ public class Main {
         }
     }
 
+
+    public static void creatGraFile(String exerciseFile,String answerFile){
+        //获取题目文件的答案
+        List<String> res=new ArrayList<>();
+        String ansFile="C:\\Users\\17680\\Desktop\\Answer.txt";
+        try(BufferedReader br= Files.newBufferedReader(Paths.get(ansFile))) {
+            String line=null;
+            while((line=br.readLine())!=null){
+                System.out.println(line);
+                if(line.equals("答案")){
+                    continue;
+                }else {
+                    int index = line.indexOf(".");
+                    res.add(line.substring(index+1));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (String re : res) {
+            System.out.println(re);
+        }
+        List<String> ans=new ArrayList<>();
+        try(BufferedReader br= Files.newBufferedReader(Paths.get(answerFile))) {
+            String line=null;
+
+            while((line=br.readLine())!=null){
+                if(line.equals("答案")){
+                    continue;
+                }else {
+                    int index = line.indexOf(".");
+                    ans.add(line.substring(index+1));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int right=0;
+        int wrong=0;
+        List<String> rightList=new ArrayList<>();
+        List<String> wrongList=new ArrayList<>();
+        for (int i = 0; i < res.size(); i++) {
+            if(res.get(i).equals(ans.get(i))){
+                right++;
+                rightList.add(String.valueOf(i+1));
+            }else{
+                wrong++;
+                wrongList.add(String.valueOf(i+1));
+            }
+        }
+
+
+        File file=new File("C:\\Users\\17680\\Desktop\\Grade.txt");
+        if(file.exists()){
+            file.delete();
+        }
+        try {
+            if(file.createNewFile()){
+                FileOutputStream fileOutputStream=new FileOutputStream(file);
+                PrintStream printStream=new PrintStream(file);
+                StringBuilder sb=new StringBuilder();
+                StringBuilder sb1=new StringBuilder();
+                sb.append("Correct:"+right);
+                sb.append("(");
+                for (String s : rightList) {
+                    sb.append(s+",");
+                }
+                sb.deleteCharAt(sb.toString().length()-1);
+                sb.append(")");
+
+                sb1.append("Wrong:"+wrong);
+                sb1.append("(");
+                for (String s : wrongList) {
+                    sb1.append(s+",");
+                }
+                sb1.deleteCharAt(sb1.toString().length()-1);
+                sb1.append(")");
+                printStream.println(sb.toString());
+                printStream.println(sb1.toString());
+                fileOutputStream.close();
+                printStream.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
     private static List<String> generate(int n,int r){
