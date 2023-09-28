@@ -17,8 +17,11 @@ public class TestMain {
     @Test
     public void testexpression(){
         int r=10;
-        String expression = Main.expression(r);
-        System.out.println(expression);
+        for (int i = 0; i < 3; i++) {
+            String expression = Main.expression(r);
+            System.out.println(expression);
+        }
+
     }
     /**
      * 测试逆波兰计算结果函数
